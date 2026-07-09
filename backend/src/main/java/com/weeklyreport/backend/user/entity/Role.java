@@ -1,5 +1,6 @@
 package com.weeklyreport.backend.user.entity;
 
+import com.weeklyreport.backend.user.enums.RolesEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,8 +19,9 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     @Column(unique = true, nullable = false)
-    private String name;
+    private RolesEnum name;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

@@ -21,13 +21,14 @@ public class RoleInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        for(RolesEnum rolesEnum : RolesEnum.values()){
-            String roleName = rolesEnum.name();
-            if(!roleRepo.existsByName(roleName)){
+
+        for(RolesEnum roleEnum : RolesEnum.values()){
+
+            if(!roleRepo.existsByName(roleEnum)){
                 Role role = new Role();
-                role.setName(roleName);
+                role.setName(roleEnum);
                 roleRepo.save(role);
-                log.info("### Role Initializer inserted roel : {}", roleName);
+                log.info("### Role Initializer inserted roel : {}", roleEnum.name());
             }
         }
     }

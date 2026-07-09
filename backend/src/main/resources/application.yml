@@ -15,5 +15,9 @@ spring:
 
     show-sql: true
 
-#  server:
-#    port: 8000
+  server:
+    port: 8080
+
+jwt:
+  secret: 8a7d9f5e6c3b2a1d4f8e9c7b6a5d3f2e1c4b7a8d9e6f1a2b3c4d5e6f7a8b9
+  expiration: 86400000 # 24h
