@@ -10,6 +10,8 @@ import com.weeklyreport.backend.user.repo.RoleRepo;
 import com.weeklyreport.backend.user.repo.UserRepo;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -76,4 +78,17 @@ public class UserService {
             throw new ServiceUnavailableException("Error getting user");
         }
     }
+
+    // Current user
+    public AppUser getCurrentUser(){
+
+        Authentication authentication =
+                SecurityContextHolder
+                        .getContext()
+                        .getAuthentication();
+
+        return (AppUser) authentication.getPrincipal();
+
+    }
+
 }

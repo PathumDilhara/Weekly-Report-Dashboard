@@ -33,10 +33,8 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth-> auth
-                        .requestMatchers(
-                                "/api/v1/user/**"
-                        ).authenticated()
                         .requestMatchers("/api/v1/auth/**").permitAll()
+                        .anyRequest().authenticated()
                 )
 //                .httpBasic(Customizer.withDefaults()) // enables HTTP Basic Authentication temporarily
 //                .sessionManagement(session->
