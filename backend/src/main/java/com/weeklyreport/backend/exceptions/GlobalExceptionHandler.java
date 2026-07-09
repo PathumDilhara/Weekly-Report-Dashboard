@@ -18,7 +18,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler({
-            UserNotFoundException.class,
+            ObjNotFoundException.class,
             RoleNotFoundException.class
     })
     public ResponseEntity<CustomResponse<Object>> handleCustomerNotFound(RuntimeException  ex) {

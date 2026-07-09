@@ -2,7 +2,7 @@ package com.weeklyreport.backend.report.service;
 
 import com.weeklyreport.backend.exceptions.ServiceUnavailableException;
 import com.weeklyreport.backend.project.entity.Project;
-import com.weeklyreport.backend.project.entity.ProjectRepo;
+import com.weeklyreport.backend.project.repo.ProjectRepo;
 import com.weeklyreport.backend.report.dto.CreateReportRequestDTO;
 import com.weeklyreport.backend.report.dto.ReportResponseDTO;
 import com.weeklyreport.backend.report.dto.UpdateReportRequestDTO;
@@ -65,7 +65,7 @@ public class WeeklyReportService {
                         new RuntimeException("Report not found")
                 );
 
-        if(report.getStatus() == ReportStatusEnum.SUBMITTED){
+        if(report.getStatus() == ReportStatusEnum.DRAFT){
             throw new RuntimeException(
                     "Submitted report cannot be updated"
             );

@@ -12,4 +12,6 @@ public interface WeeklyReportRepo extends JpaRepository<WeeklyReport, Long> {
     List<WeeklyReport> findByAppUserUserId(String userId);
 
     List<WeeklyReport> findByStatus(ReportStatusEnum status);
+
+    long countByStatus(ReportStatusEnum status);
 }
