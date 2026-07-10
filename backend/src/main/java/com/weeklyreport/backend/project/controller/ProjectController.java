@@ -24,12 +24,12 @@ public class ProjectController {
     // MEMBER
 
     @GetMapping
-    public CustomResponse<List<CreateProjectDTO>> getAll(){
+    public CustomResponse<List<ProjectResponseDTO>> getAll(){
         return new CustomResponse<>(true, "All", projectService.getAllProjects());
     }
 
     @GetMapping("/{id}")
-    public CustomResponse<CreateProjectDTO> getProjectById(@PathVariable Long id){
+    public CustomResponse<ProjectResponseDTO> getProjectById(@PathVariable Long id){
         return new CustomResponse<>(true, "Project fetched id :" + id, projectService.getProjectById(id));
     }
 
@@ -50,6 +50,15 @@ public class ProjectController {
     ){
         ProjectResponseDTO res = projectService.updateProject(id, dto);
         return new CustomResponse<>(true, "project created", res);
+    }
+
+    @PreAuthorize("hasRole('MANAGER')")
+    @DeleteMapping("/{id}")
+    public CustomResponse<ProjectResponseDTO> deleteProjectById(
+            @PathVariable Long id
+    ){
+        projectService.deleteProject(id);
+        return new CustomResponse<>(true, "project deleted : " +id, null);
     }
 
 }

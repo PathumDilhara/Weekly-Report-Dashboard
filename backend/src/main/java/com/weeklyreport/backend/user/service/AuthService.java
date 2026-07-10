@@ -81,6 +81,9 @@ public class AuthService {
 
     public AuthResponseDTO login(LoginRequestDTO dto){
         try {
+
+            System.out.println("EMAIL = " + dto.getEmail());
+
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             dto.getEmail(),
@@ -89,6 +92,9 @@ public class AuthService {
             );
 
             var user = (UserDetails) authentication.getPrincipal();
+            System.out.println("USER FOUND = " + user.getUsername());
+
+
             String token = jwtService.generateToken(Objects.requireNonNull(user));
 
             return new AuthResponseDTO(token);

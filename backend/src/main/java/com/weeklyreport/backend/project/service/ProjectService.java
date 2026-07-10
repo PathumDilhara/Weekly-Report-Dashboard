@@ -29,6 +29,10 @@ public class ProjectService {
         try {
             Project project = new Project();
             project.setName(dto.getName());
+            project.setDescription(dto.getName());
+            project.setStartDate(dto.getStartDate());
+            project.setEndDate(dto.getEndDate());
+            project.setActive(dto.isActive());
 
             Project savedProject = projectRepo.save(project);
 
@@ -38,13 +42,13 @@ public class ProjectService {
         }
     }
 
-    public CreateProjectDTO getProjectById(Long id){
-        return modelMapper.map(projectRepo.findById(id), CreateProjectDTO.class);
+    public ProjectResponseDTO getProjectById(Long id){
+        return modelMapper.map(projectRepo.findById(id), ProjectResponseDTO.class);
     }
 
-    public List<CreateProjectDTO> getAllProjects(){
+    public List<ProjectResponseDTO> getAllProjects(){
         try {
-            return modelMapper.map(projectRepo.findAll(), new TypeToken<List<CreateProjectDTO>>() {
+            return modelMapper.map(projectRepo.findAll(), new TypeToken<List<ProjectResponseDTO>>() {
             }.getType());
         }catch (Exception ex){
             throw new RuntimeException("Error : ", ex);
@@ -67,6 +71,20 @@ public class ProjectService {
             return modelMapper.map(updated, ProjectResponseDTO.class);
         } catch (Exception ex){
             throw new ServiceUnavailableException("Error updating project : "+ ex.getMessage());
+        }
+    }
+
+    public void deleteProject(Long id) {
+        try {
+            if (projectRepo.existsById(id)) {
+                projectRepo.deleteById(id);
+            } else {
+                throw new ObjNotFoundException("Project not found : "+id);
+            }
+        } catch (ObjNotFoundException ex){
+            throw ex;
+        } catch (Exception ex){
+            throw new ServiceUnavailableException("Unable to delete project : " + id);
         }
     }
 }

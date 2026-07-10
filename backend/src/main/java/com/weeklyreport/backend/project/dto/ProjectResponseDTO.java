@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -16,4 +17,6 @@ public class ProjectResponseDTO {
     private LocalDate startDate;
     private LocalDate endDate;
     private boolean active;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

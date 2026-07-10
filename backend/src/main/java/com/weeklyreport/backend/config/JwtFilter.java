@@ -35,15 +35,21 @@ public class JwtFilter extends OncePerRequestFilter {
         String authHeader = request.getHeader("Authorization");
         String jwt = null;
         String email = null;
+        String path = request.getServletPath();
 
-        //Check JWT header
-        if(authHeader != null && authHeader.startsWith("Bearer ")){
-            jwt = authHeader.substring(7);
-            email = jwtService.extractUsername(jwt);
+
+
+        if (path.startsWith("/api/v1/auth") || authHeader == null || !authHeader.startsWith("Bearer ")) {
+            filterChain.doFilter(request, response);
+            return;
         }
 
+        //Check JWT header
+        jwt = authHeader.substring(7);
+        email = jwtService.extractUsername(jwt);
+
         // If user exists and not already authenticated
-        if(email!=null && SecurityContextHolder.getContext().getAuthentication() == null){
+        if(email != null && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails userDetails = customUserDetailsService.loadUserByUsername(email);
 
             if(jwtService.isValidToken(jwt, userDetails)){

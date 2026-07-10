@@ -4,7 +4,10 @@ import com.weeklyreport.backend.response.CustomResponse;
 import com.weeklyreport.backend.user.dto.UserDTO;
 import com.weeklyreport.backend.user.service.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -17,12 +20,27 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PreAuthorize("hasRole('MEMBER')")
+    @GetMapping("/me")
+    public CustomResponse<UserDTO> getCurrentUser(){
+        UserDTO user = userService.getUser();
+        return new CustomResponse<>(true, "User fetched success", user);
+    }
+
+    @PreAuthorize("hasRole('MANAGER')")
     @GetMapping("/{id}")
     public CustomResponse<UserDTO> getUserById(@PathVariable String id){
         UserDTO user = userService.getUserById(id);
         return new CustomResponse<>(true, "User fetched success", user);
     }
+
+    @PreAuthorize("hasRole('MANAGER')")
+    @GetMapping("/all")
+    public CustomResponse<List<UserDTO>> getUserById(){
+        List<UserDTO> user = userService.getAllUsers();
+        return new CustomResponse<>(true, "User fetched success", user);
+    }
+
+
 
     @PutMapping("/{id}/promote")
     @PreAuthorize("hasRole('MANAGER')")
@@ -45,5 +63,12 @@ public class UserController {
 
         return new CustomResponse<> (true, "User demoted to member", null);
     }
+
+    @GetMapping("/test")
+    public Object test(Authentication authentication){
+
+        return authentication.getAuthorities();
+    }
+
 
 }

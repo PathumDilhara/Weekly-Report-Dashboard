@@ -10,9 +10,12 @@ import com.weeklyreport.backend.user.repo.RoleRepo;
 import com.weeklyreport.backend.user.repo.UserRepo;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -74,21 +77,52 @@ public class UserService {
         try {
             AppUser user = userRepo.findById(id).orElseThrow(() -> new ObjNotFoundException("User not found"));
             return modelMapper.map(user, UserDTO.class);
+        } catch (ObjNotFoundException ex){
+            throw ex;
         } catch (Exception ex){
-            throw new ServiceUnavailableException("Error getting user");
+            throw new ServiceUnavailableException("Error getting user : " + ex.getMessage());
         }
     }
 
     // Current user
     public AppUser getCurrentUser(){
 
-        Authentication authentication =
-                SecurityContextHolder
-                        .getContext()
-                        .getAuthentication();
+        try {
+            Authentication authentication =
+                    SecurityContextHolder
+                            .getContext()
+                            .getAuthentication();
 
-        return (AppUser) authentication.getPrincipal();
-
+            return (AppUser) authentication.getPrincipal();
+        } catch (Exception ex){
+            throw new ServiceUnavailableException(ex.getMessage());
+        }
     }
 
+    public UserDTO getUser(){
+        AppUser user = getCurrentUser();
+
+        UserDTO dto = new UserDTO();
+        dto.setId(user.getUserId());
+        dto.setEmail(user.getEmail());
+        dto.setFirstName(user.getFirstName());
+        dto.setLastName(user.getLastName());
+
+        return dto;
+    }
+
+    public List<UserDTO> getAllUsers() {
+        try {
+            List<AppUser> users = userRepo.findAll();
+
+            if(users.isEmpty()){
+                throw new ObjNotFoundException("Users list empty");
+            }
+            return modelMapper.map(users, new TypeToken<List<UserDTO>>(){}.getType());
+        } catch (ObjNotFoundException ex){
+            throw ex;
+        } catch (Exception ex){
+            throw new ServiceUnavailableException("Error getting user : " + ex.getMessage());
+        }
+    }
 }

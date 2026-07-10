@@ -37,11 +37,4 @@ public class AuthController {
         authService.delete(id);
         return ResponseEntity.noContent().build(); // 204 No Content
     }
-
-    @GetMapping("/test")
-    public Object test(Authentication authentication){
-
-        return authentication.getAuthorities();
-    }
-
 }
