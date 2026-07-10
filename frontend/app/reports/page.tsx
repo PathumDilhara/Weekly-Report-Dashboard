@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { getMyReports } from "@/services/report.service";
 import { Report } from "@/types/Report";
+import Link from "next/link";
 
 export default function ReportsPage() {
 
@@ -25,9 +26,13 @@ export default function ReportsPage() {
             {
                 reports.map((report) => (
 
-                    <div
+                    <Link
+                        href={`/reports/${report.id}`}
+
                         key={report.id}
-                        className="border p-4 mt-4 rounded"
+
+                        className="border p-4 mt-4 rounded block"
+
                     >
                         <h2>
                             {report.projectName}
@@ -46,7 +51,7 @@ export default function ReportsPage() {
                             Hours:
                             {report.hoursWorked}
                         </p>
-                    </div>
+                    </Link>
                 ))
             }
         </div>
