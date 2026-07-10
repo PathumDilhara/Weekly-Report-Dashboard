@@ -44,10 +44,10 @@ export default function RegisterPage() {
 
             localStorage.setItem(
                 "token",
-                response.token
+                response.data.token
             );
 
-            router.push("/login");
+            router.push("/dashboard");
         } catch (error) {
             console.log(error);
             alert(

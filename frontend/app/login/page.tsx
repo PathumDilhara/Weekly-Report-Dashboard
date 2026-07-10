@@ -1,12 +1,15 @@
 "use client"
 
 import { useRouter } from "next/navigation"
-import { login } from "@/services/auth.service";
+import { login as loginApi } from "@/services/auth.service"; // Communicates with Spring Boot backend
 import { useState } from "react";
+import useAuth from "../hooks/useAuth"; // Stores JWT token in browser
 
 export default function LoginPage() {
 
     const router = useRouter();
+    const { login } = useAuth(); // Stores JWT token in browser
+
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -16,22 +19,26 @@ export default function LoginPage() {
 
         try {
 
-            const response = await login({
+            const response = await loginApi({
                 email,
                 password
             });
 
 
             console.log(response);
+            console.log(response.data);
+
+            const token = response.data.token;
 
 
-            localStorage.setItem(
-                "token",
-                response.token
-            );
+            // localStorage.setItem(
+            //     "token",
+            //     response.token
+            // );
 
+            login(token);
 
-            // router.push("/dashboard");
+            router.push("/dashboard");
 
 
         } catch (error) {
