@@ -20,7 +20,7 @@ public class WeeklyReport {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long reportId;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

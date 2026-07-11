@@ -1,5 +1,6 @@
 package com.weeklyreport.backend.user.dto;
 
+import com.weeklyreport.backend.user.enums.TeamEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,4 +13,5 @@ public class RegisterRequestDTO {
     private String lastName;
     private String email;
     private String password;
+    private TeamEnum team;
 }

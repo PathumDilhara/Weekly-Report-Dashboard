@@ -64,6 +64,7 @@ public class AuthService {
                     )
             );
             user.setRole(defultRole);
+            user.setTeam(dto.getTeam());
 
             AppUser savedUser = userRepo.save(user);
 

@@ -3,6 +3,7 @@ package com.weeklyreport.backend.user.init;
 import com.weeklyreport.backend.user.entity.AppUser;
 import com.weeklyreport.backend.user.entity.Role;
 import com.weeklyreport.backend.user.enums.RolesEnum;
+import com.weeklyreport.backend.user.enums.TeamEnum;
 import com.weeklyreport.backend.user.repo.RoleRepo;
 import com.weeklyreport.backend.user.repo.UserRepo;
 import org.slf4j.Logger;
@@ -42,19 +43,17 @@ public class AdminInitializer implements CommandLineRunner {
                             new RuntimeException("SUPER_ADMIN role not found")
                     );
 
-
             AppUser admin = new AppUser();
 
             admin.setFirstName("Super");
             admin.setLastName("Admin");
             admin.setEmail(adminEmail);
-
             // default password
             admin.setPassword(
                     passwordEncoder.encode("Admin@123")
             );
-
             admin.setRole(superAdminRole);
+            admin.setTeam(TeamEnum.BACKEND);
 
             userRepo.save(admin);
 

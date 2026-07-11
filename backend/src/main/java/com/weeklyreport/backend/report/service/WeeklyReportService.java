@@ -3,6 +3,7 @@ package com.weeklyreport.backend.report.service;
 import com.weeklyreport.backend.exceptions.ServiceUnavailableException;
 import com.weeklyreport.backend.project.entity.Project;
 import com.weeklyreport.backend.project.repo.ProjectRepo;
+import com.weeklyreport.backend.report.component.ReportMapper;
 import com.weeklyreport.backend.report.dto.CreateReportRequestDTO;
 import com.weeklyreport.backend.report.dto.ReportResponseDTO;
 import com.weeklyreport.backend.report.dto.UpdateReportRequestDTO;
@@ -24,12 +25,16 @@ public class WeeklyReportService {
     private final WeeklyReportRepo reportRepo;
     private final UserService userService;
     private final ProjectRepo projectRepo;
+    private final ReportMapper reportMapper;
 
-    public WeeklyReportService(WeeklyReportRepo reportRepo, UserService userService, ProjectRepo projectRepo) {
+    public WeeklyReportService(WeeklyReportRepo reportRepo, UserService userService, ProjectRepo projectRepo, ReportMapper reportMapper) {
         this.reportRepo = reportRepo;
         this.userService = userService;
         this.projectRepo = projectRepo;
+        this.reportMapper = reportMapper;
     }
+
+
 
     public ReportResponseDTO createReport(CreateReportRequestDTO dto) {
        try{
@@ -52,12 +57,14 @@ public class WeeklyReportService {
 
            WeeklyReport saved = reportRepo.save(report);
 
-           return convertToDTO(saved);
+           return reportMapper.toDTO(saved);
 
        } catch (Exception ex){
            throw new ServiceUnavailableException("Error Creating Report : "+ex.getMessage());
        }
     }
+
+
 
     public ReportResponseDTO updateReport(Long reportId, UpdateReportRequestDTO dto) {
         WeeklyReport report = reportRepo.findById(reportId)
@@ -78,8 +85,10 @@ public class WeeklyReportService {
 
         WeeklyReport updated = reportRepo.save(report);
 
-        return convertToDTO(updated);
+        return reportMapper.toDTO(updated);
     }
+
+
 
     public void deleteReport(Long reportId) {
         try{
@@ -97,9 +106,11 @@ public class WeeklyReportService {
 
             reportRepo.delete(report);
         } catch (Exception ex){
-            throw new ServiceUnavailableException("Error updating report");
+            throw new ServiceUnavailableException("Error deleting report : "+ex.getMessage());
         }
     }
+
+
 
     public ReportResponseDTO submitReport(Long reportId) {
         try{
@@ -111,14 +122,15 @@ public class WeeklyReportService {
 
             report.setStatus(ReportStatusEnum.SUBMITTED);
 
-
             WeeklyReport saved = reportRepo.save(report);
 
-            return convertToDTO(saved);
+            return  reportMapper.toDTO(saved);
         } catch (Exception ex){
             throw new ServiceUnavailableException("Error submitting report");
         }
     }
+
+
 
     public ReportResponseDTO getReportById(Long reportId) {
         WeeklyReport report = reportRepo.findById(reportId)
@@ -126,8 +138,10 @@ public class WeeklyReportService {
                         new RuntimeException("Report not found")
                 );
 
-        return convertToDTO(report);
+        return  reportMapper.toDTO(report);
     }
+
+
 
     public List<ReportResponseDTO> getMyReports() {
         AppUser user = userService.getCurrentUser();
@@ -136,32 +150,10 @@ public class WeeklyReportService {
         List<ReportResponseDTO> responseList = new ArrayList<>();
 
         for (WeeklyReport report : reports) {
-            ReportResponseDTO dto = convertToDTO(report);
+            ReportResponseDTO dto = reportMapper.toDTO(report);
             responseList.add(dto);
         }
 
         return responseList;
-    }
-
-    private ReportResponseDTO convertToDTO(WeeklyReport report) {
-       ReportResponseDTO dto = new ReportResponseDTO();
-
-       dto.setId(report.getId());
-       dto.setProjectId(report.getProject().getId());
-       dto.setProjectName(report.getProject().getName());
-       dto.setUserId(report.getAppUser().getUserId());
-       dto.setUserName(report.getAppUser().getFirstName() + " " + report.getAppUser().getLastName());
-       dto.setWeekStart(report.getWeekStart());
-       dto.setWeekEnd(report.getWeekEnd());
-       dto.setTasksCompleted(report.getTasksCompleted());
-       dto.setTasksPlanned(report.getTasksPlanned());
-       dto.setBlockers(report.getBlockers());
-       dto.setHoursWorked(report.getHoursWorked());
-       dto.setStatus(report.getStatus());
-       dto.setSubmittedAt(report.getSubmittedAt());
-       dto.setCreatedAt(report.getCreatedAt());
-       dto.setUpdatedAt(report.getUpdatedAt());
-
-       return dto;
     }
 }

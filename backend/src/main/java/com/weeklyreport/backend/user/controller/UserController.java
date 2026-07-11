@@ -1,7 +1,7 @@
 package com.weeklyreport.backend.user.controller;
 
 import com.weeklyreport.backend.response.CustomResponse;
-import com.weeklyreport.backend.user.dto.UserDTO;
+import com.weeklyreport.backend.user.dto.RetrieveUserDTO;
 import com.weeklyreport.backend.user.service.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -21,22 +21,22 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    public CustomResponse<UserDTO> getCurrentUser(){
-        UserDTO user = userService.getUser();
+    public CustomResponse<RetrieveUserDTO> getCurrentUser(){
+        RetrieveUserDTO user = userService.getOwner();
         return new CustomResponse<>(true, "User fetched success", user);
     }
 
     @PreAuthorize("hasRole('MANAGER')")
     @GetMapping("/{id}")
-    public CustomResponse<UserDTO> getUserById(@PathVariable String id){
-        UserDTO user = userService.getUserById(id);
+    public CustomResponse<RetrieveUserDTO> getUserById(@PathVariable String id){
+        RetrieveUserDTO user = userService.getUserById(id);
         return new CustomResponse<>(true, "User fetched success", user);
     }
 
     @PreAuthorize("hasRole('MANAGER')")
     @GetMapping("/all")
-    public CustomResponse<List<UserDTO>> getUserById(){
-        List<UserDTO> user = userService.getAllUsers();
+    public CustomResponse<List<RetrieveUserDTO>> getUserById(){
+        List<RetrieveUserDTO> user = userService.getAllUsers();
         return new CustomResponse<>(true, "User fetched success", user);
     }
 

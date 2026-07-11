@@ -1,0 +1,87 @@
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.pkl
+*.h5
+*.keras
+*.joblib
+*.jpg
+*.JPG
+*.JPEG
+*.jpeg
+*.webm
+*.mp4
+
+# virtual environments
+venv/
+env/
+ENV/
+.venv/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# =========================
+# TensorFlow / ML
+# =========================
+saved_model/
+saved_models/
+processed_data/
+checkpoints/
+logs/
+tensorboard_logs/
+*.tflite
+*.pb
+*.tflite
+
+# dataset
+data/
+datasets/
+dataset/
+*.csv
+*.zip
+*.tar
+*.gz
+
+# =========================
+# FastAPI / backend
+# =========================
+*.db
+*.sqlite3
+.env
+.env.*
+!.env.example
+
+# logs
+*.log
+
+# =========================
+# IDE / Editors
+# =========================
+.vscode/
+.idea/
+*.iml
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# Hugging Face cache (VERY IMPORTANT)
+.cache/
+huggingface/
+models/
+datasets/
+
+# Saved models (if you don't want to push them)
+bert_model/
+*.bin
+*.pt
+
+tunned/

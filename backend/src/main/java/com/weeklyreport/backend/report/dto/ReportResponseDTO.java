@@ -1,6 +1,7 @@
 package com.weeklyreport.backend.report.dto;
 
 import com.weeklyreport.backend.report.enums.ReportStatusEnum;
+import com.weeklyreport.backend.user.enums.TeamEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReportResponseDTO {
-    private Long id;
+    private Long reportId;
 
     // Project details
     private Long projectId;
@@ -20,8 +21,10 @@ public class ReportResponseDTO {
 
     // User details
     private String userId;
-    private String userName;
-    private String userEmail;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private TeamEnum team;
 
     // Report details
     private LocalDate weekStart;
@@ -33,8 +36,6 @@ public class ReportResponseDTO {
     private ReportStatusEnum status;
     private LocalDateTime submittedAt;
 
-    // Audit fields
     private LocalDateTime createdAt;
-
     private LocalDateTime updatedAt;
 }

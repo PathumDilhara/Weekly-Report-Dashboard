@@ -1,5 +1,6 @@
 package com.weeklyreport.backend.user.entity;
 
+import com.weeklyreport.backend.user.enums.TeamEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,6 +36,10 @@ public class AppUser implements UserDetails {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TeamEnum team;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

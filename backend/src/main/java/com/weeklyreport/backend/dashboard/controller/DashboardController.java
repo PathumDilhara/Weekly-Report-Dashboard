@@ -6,6 +6,7 @@ import com.weeklyreport.backend.dashboard.dto.WorkloadDTO;
 import com.weeklyreport.backend.dashboard.service.DashboardService;
 import com.weeklyreport.backend.report.dto.ReportResponseDTO;
 import com.weeklyreport.backend.response.CustomResponse;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,5 +49,13 @@ public class DashboardController {
     public CustomResponse<List<WorkloadDTO>> getWorkload() {
         List<WorkloadDTO> res = dashboardService.getWorkload();
         return new CustomResponse<>(true, "Workload fetched successfully", res);
+    }
+
+    @GetMapping("/trends")
+    public CustomResponse<?> getTrends(){
+
+        return new CustomResponse<>(true, "Trend fetched successfully",
+                dashboardService.getTrends()
+        );
     }
 }

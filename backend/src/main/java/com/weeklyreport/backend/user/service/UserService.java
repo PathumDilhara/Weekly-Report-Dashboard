@@ -2,7 +2,7 @@ package com.weeklyreport.backend.user.service;
 
 import com.weeklyreport.backend.exceptions.ServiceUnavailableException;
 import com.weeklyreport.backend.exceptions.ObjNotFoundException;
-import com.weeklyreport.backend.user.dto.UserDTO;
+import com.weeklyreport.backend.user.dto.RetrieveUserDTO;
 import com.weeklyreport.backend.user.entity.AppUser;
 import com.weeklyreport.backend.user.entity.Role;
 import com.weeklyreport.backend.user.enums.RolesEnum;
@@ -73,10 +73,10 @@ public class UserService {
         }
     }
 
-    public UserDTO getUserById(String id){
+    public RetrieveUserDTO getUserById(String id){
         try {
             AppUser user = userRepo.findById(id).orElseThrow(() -> new ObjNotFoundException("User not found"));
-            return modelMapper.map(user, UserDTO.class);
+            return modelMapper.map(user, RetrieveUserDTO.class);
         } catch (ObjNotFoundException ex){
             throw ex;
         } catch (Exception ex){
@@ -86,7 +86,6 @@ public class UserService {
 
     // Current user
     public AppUser getCurrentUser(){
-
         try {
             Authentication authentication =
                     SecurityContextHolder
@@ -99,30 +98,45 @@ public class UserService {
         }
     }
 
-    public UserDTO getUser(){
+    public RetrieveUserDTO getOwner(){
         AppUser user = getCurrentUser();
 
-        UserDTO dto = new UserDTO();
-        dto.setId(user.getUserId());
+        RetrieveUserDTO dto = new RetrieveUserDTO();
+
+        dto.setUserId(user.getUserId());
         dto.setEmail(user.getEmail());
         dto.setFirstName(user.getFirstName());
         dto.setLastName(user.getLastName());
+        dto.setTeam(user.getTeam());
 
         return dto;
     }
 
-    public List<UserDTO> getAllUsers() {
+    public List<RetrieveUserDTO> getAllUsers() {
         try {
             List<AppUser> users = userRepo.findAll();
 
             if(users.isEmpty()){
                 throw new ObjNotFoundException("Users list empty");
             }
-            return modelMapper.map(users, new TypeToken<List<UserDTO>>(){}.getType());
+            return users.stream().map(this::userMapper).toList();
         } catch (ObjNotFoundException ex){
             throw ex;
         } catch (Exception ex){
             throw new ServiceUnavailableException("Error getting user : " + ex.getMessage());
         }
+    }
+
+
+
+    private RetrieveUserDTO userMapper(AppUser user){
+        RetrieveUserDTO dto = new RetrieveUserDTO();
+        dto.setUserId(user.getUserId());
+        dto.setFirstName(user.getFirstName());
+        dto.setLastName(user.getLastName());
+        dto.setEmail(user.getEmail());
+        dto.setTeam(user.getTeam());
+
+        return dto;
     }
 }
