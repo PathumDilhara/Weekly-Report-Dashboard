@@ -58,41 +58,58 @@ export default function RegisterPage() {
     }
 
     return (
-        <div>
-            <h1>Register</h1>
+        <div className="min-h-screen flex items-center justify-center bg-gray-100">
 
-            <form onSubmit={handleRegister}>
+            <div className="bg-white p-8 rounded-lg shadow-md w-96">
 
-                <input
-                    name="email"
-                    placeholder="Email"
-                    onChange={handleChange}
-                />
-
-                <input
-                    name="firstName"
-                    placeholder="First Name"
-                    onChange={handleChange}
-                />
-
-                <input
-                    name="lastName"
-                    placeholder="Last Name"
-                    onChange={handleChange}
-                />
-
-                <input
-                    name="password"
-                    type="password"
-                    placeholder="Password"
-                    onChange={handleChange}
-                />
-
-                <button>
+                <h1 className="text-2xl font-bold text-center mb-6">
                     Register
-                </button>
+                </h1>
 
-            </form>
+                <form
+                    onSubmit={handleRegister}
+                    className="space-y-4"
+                >
+
+                    <input
+                        name="email"
+                        placeholder="Email"
+                        onChange={handleChange}
+                        className="w-full border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    />
+
+                    <input
+                        name="firstName"
+                        placeholder="First Name"
+                        onChange={handleChange}
+                        className="w-full border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    />
+
+                    <input
+                        name="lastName"
+                        placeholder="Last Name"
+                        onChange={handleChange}
+                        className="w-full border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    />
+
+                    <input
+                        name="password"
+                        type="password"
+                        placeholder="Password"
+                        onChange={handleChange}
+                        className="w-full border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    />
+
+                    <button
+                        className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
+                    >
+                        Register
+                    </button>
+
+                </form>
+
+            </div>
+
         </div>
     )
 }

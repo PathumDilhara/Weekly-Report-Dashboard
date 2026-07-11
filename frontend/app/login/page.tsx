@@ -51,34 +51,50 @@ export default function LoginPage() {
     }
 
     return (
-        <div>
-            <h1>Login</h1>
+        <div className="min-h-screen flex items-center justify-center bg-gray-100">
 
-            <form onSubmit={handleLogin}>
+            <div className="bg-white p-8 rounded-lg shadow-md w-96">
 
-                <input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={
-                        e => setEmail(e.target.value)
-                    }
-                />
-
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={
-                        e => setPassword(e.target.value)
-                    }
-                />
-
-                <button type="submit">
+                <h1 className="text-2xl font-bold text-center mb-6">
                     Login
-                </button>
+                </h1>
 
-            </form>
-        </div >
+                <form
+                    onSubmit={handleLogin}
+                    className="space-y-4"
+                >
+
+                    <input
+                        type="email"
+                        placeholder="Email"
+                        value={email}
+                        onChange={
+                            e => setEmail(e.target.value)
+                        }
+                        className="w-full border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    />
+
+                    <input
+                        type="password"
+                        placeholder="Password"
+                        value={password}
+                        onChange={
+                            e => setPassword(e.target.value)
+                        }
+                        className="w-full border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    />
+
+                    <button
+                        type="submit"
+                        className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
+                    >
+                        Login
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
     )
 }
