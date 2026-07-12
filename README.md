@@ -27,7 +27,7 @@ The project follows a modern full-stack architecture using **Spring Boot**, **Ne
 - Spring Data JPA
 - Hibernate
 
-## AI Assistant (Bonus)
+## AI Assistant
 
 - FastAPI
 - LangChain
