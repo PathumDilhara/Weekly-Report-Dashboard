@@ -10,7 +10,6 @@ import com.weeklyreport.backend.user.repo.RoleRepo;
 import com.weeklyreport.backend.user.repo.UserRepo;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;

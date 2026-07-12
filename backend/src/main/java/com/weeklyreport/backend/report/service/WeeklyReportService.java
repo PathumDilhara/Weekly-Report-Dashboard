@@ -26,12 +26,14 @@ public class WeeklyReportService {
     private final UserService userService;
     private final ProjectRepo projectRepo;
     private final ReportMapper reportMapper;
+    private final RagService ragService;
 
-    public WeeklyReportService(WeeklyReportRepo reportRepo, UserService userService, ProjectRepo projectRepo, ReportMapper reportMapper) {
+    public WeeklyReportService(WeeklyReportRepo reportRepo, UserService userService, ProjectRepo projectRepo, ReportMapper reportMapper, RagService ragService) {
         this.reportRepo = reportRepo;
         this.userService = userService;
         this.projectRepo = projectRepo;
         this.reportMapper = reportMapper;
+        this.ragService = ragService;
     }
 
 
@@ -57,7 +59,10 @@ public class WeeklyReportService {
 
            WeeklyReport saved = reportRepo.save(report);
 
-           return reportMapper.toDTO(saved);
+           ReportResponseDTO mapperDTO =  reportMapper.toDTO(saved);
+           ragService.sendReport(mapperDTO);
+
+           return mapperDTO;
 
        } catch (Exception ex){
            throw new ServiceUnavailableException("Error Creating Report : "+ex.getMessage());
